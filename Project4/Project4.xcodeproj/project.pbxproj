@@ -12,6 +12,8 @@
 		FAF4295E2248286000B3A979 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF4295C2248286000B3A979 /* Main.storyboard */; };
 		FAF429602248286100B3A979 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAF4295F2248286100B3A979 /* Assets.xcassets */; };
 		FAF429632248286100B3A979 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAF429612248286100B3A979 /* LaunchScreen.storyboard */; };
+		FAF4296B2248437100B3A979 /* sites.txt in Resources */ = {isa = PBXBuildFile; fileRef = FAF4296A2248437100B3A979 /* sites.txt */; };
+		FAF4296D2248459900B3A979 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF4296C2248459900B3A979 /* ListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		FAF4295F2248286100B3A979 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAF429622248286100B3A979 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAF429642248286100B3A979 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAF4296A2248437100B3A979 /* sites.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sites.txt; sourceTree = "<group>"; };
+		FAF4296C2248459900B3A979 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,10 +60,12 @@
 			children = (
 				FAF429582248286000B3A979 /* AppDelegate.swift */,
 				FAF4295A2248286000B3A979 /* ViewController.swift */,
+				FAF4296A2248437100B3A979 /* sites.txt */,
 				FAF4295C2248286000B3A979 /* Main.storyboard */,
 				FAF4295F2248286100B3A979 /* Assets.xcassets */,
 				FAF429612248286100B3A979 /* LaunchScreen.storyboard */,
 				FAF429642248286100B3A979 /* Info.plist */,
+				FAF4296C2248459900B3A979 /* ListViewController.swift */,
 			);
 			path = Project4;
 			sourceTree = "<group>";
@@ -125,6 +131,7 @@
 				FAF429632248286100B3A979 /* LaunchScreen.storyboard in Resources */,
 				FAF429602248286100B3A979 /* Assets.xcassets in Resources */,
 				FAF4295E2248286000B3A979 /* Main.storyboard in Resources */,
+				FAF4296B2248437100B3A979 /* sites.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +144,7 @@
 			files = (
 				FAF4295B2248286000B3A979 /* ViewController.swift in Sources */,
 				FAF429592248286000B3A979 /* AppDelegate.swift in Sources */,
+				FAF4296D2248459900B3A979 /* ListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
