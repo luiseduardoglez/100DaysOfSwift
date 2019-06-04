@@ -16,6 +16,8 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.tableFooterView = UIView()
+
         let creditButton = UIBarButtonItem(title: "Credits", style: .plain, target: self, action: #selector(showCredits))
         let filterButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filter))
         navigationItem.leftBarButtonItems = [creditButton]
