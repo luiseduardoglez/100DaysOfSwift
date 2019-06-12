@@ -46,6 +46,11 @@ class ViewController: UIViewController {
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 present(ac, animated: true)
             }
+        } else {
+            score -= 1
+            let alert = UIAlertController(title: "Error", message: "Wrong answer", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
         }
     }
 
@@ -157,6 +162,10 @@ class ViewController: UIViewController {
                 letterButton.setTitle("WWW", for: .normal)
                 let frame = CGRect(x: col * width, y: row * height, width: width, height: height)
                 letterButton.frame = frame
+                letterButton.layer.borderColor = UIColor.lightGray.cgColor
+                letterButton.layer.borderWidth = 0.5
+                letterButton.clipsToBounds = true
+                letterButton.layer.cornerRadius = 4
                 buttonsView.addSubview(letterButton)
                 letterButton.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
                 letterButtons.append(letterButton)
