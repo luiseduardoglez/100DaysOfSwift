@@ -13,16 +13,7 @@ class ViewController: UITableViewController {
     var petitions = [Petition]()
     var filteredPetitions = [Petition]()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        tableView.tableFooterView = UIView()
-
-        let creditButton = UIBarButtonItem(title: "Credits", style: .plain, target: self, action: #selector(showCredits))
-        let filterButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filter))
-        navigationItem.leftBarButtonItems = [creditButton]
-        navigationItem.rightBarButtonItems = [filterButton]
-
+    @objc func fetchJson() {
         // let urlString = "https://api.whitehouse.gov/v1/petitions.json?limit=100"
         let urlString: String
 
@@ -40,7 +31,23 @@ class ViewController: UITableViewController {
             }
         }
 
+        performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
+
         showError()
+
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        tableView.tableFooterView = UIView()
+
+        let creditButton = UIBarButtonItem(title: "Credits", style: .plain, target: self, action: #selector(showCredits))
+        let filterButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filter))
+        navigationItem.leftBarButtonItems = [creditButton]
+        navigationItem.rightBarButtonItems = [filterButton]
+
+        performSelector(inBackground: #selector(fetchJson), with: nil)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,11 +73,13 @@ class ViewController: UITableViewController {
 
         if let jsonPetitions = try? decoder.decode(Petitions.self, from: json) {
             petitions = jsonPetitions.results
-            tableView.reloadData()
+            tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+        } else {
+            performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
         }
     }
 
-    func showError() {
+    @objc func showError() {
         let ac = UIAlertController(title: "Loading Error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
