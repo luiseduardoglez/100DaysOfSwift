@@ -17,23 +17,7 @@ class ViewController: UITableViewController {
         title = "Storm Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
-        
-        // Let us work with the filesystem
-        let fileManager = FileManager.default
-
-        // Resource path of our app's bundle
-        // Bundle: directory containing our compiled program and all our assets
-        let path = Bundle.main.resourcePath!
-        let items = try! fileManager.contentsOfDirectory(atPath: path)
-
-        for item in items {
-            if item.hasPrefix("nssl") {
-                pictures.append(item)
-            }
-        }
-        
-        pictures.sort()
-
+        performSelector(inBackground: #selector(loadPictures), with: nil)
         print(pictures)
     }
     
@@ -52,6 +36,27 @@ class ViewController: UITableViewController {
             vc.selectedImage = pictures[indexPath.row]
             vc.customTitle = "Picture \(indexPath.row + 1) of \(pictures.count)"
             navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
+    @objc func loadPictures() {
+        // Let us work with the filesystem
+        let fileManager = FileManager.default
+
+        // Resource path of our app's bundle
+        // Bundle: directory containing our compiled program and all our assets
+        let path = Bundle.main.resourcePath!
+        let items = try! fileManager.contentsOfDirectory(atPath: path)
+
+        for item in items {
+            if item.hasPrefix("nssl") {
+                pictures.append(item)
+            }
+        }
+
+        pictures.sort()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
     
