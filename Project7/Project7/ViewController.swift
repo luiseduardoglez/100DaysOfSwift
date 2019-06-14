@@ -97,12 +97,17 @@ class ViewController: UITableViewController {
         ac.addTextField()
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self, weak ac] action in
             guard let answer = ac?.textFields?[0].text else { return }
-            if answer == "" {
-                self?.filteredPetitions = self?.petitions ?? []
-            } else {
-                self?.filteredPetitions = self?.petitions.filter { $0.body.contains(answer)} ?? []
+            DispatchQueue.global(qos: .background).async {
+                if answer == "" {
+                    self?.filteredPetitions = self?.petitions ?? []
+                } else {
+                    self?.filteredPetitions = self?.petitions.filter { $0.body.contains(answer)} ?? []
+                }
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
             }
-            self?.tableView.reloadData()
         }
 
         ac.addAction(okAction)
