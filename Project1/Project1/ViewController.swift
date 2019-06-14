@@ -17,6 +17,7 @@ class ViewController: UITableViewController {
         title = "Storm Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+        tableView.tableFooterView = UIView()
         performSelector(inBackground: #selector(loadPictures), with: nil)
         print(pictures)
     }
