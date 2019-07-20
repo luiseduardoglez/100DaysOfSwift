@@ -31,12 +31,23 @@ class ViewController: UITableViewController {
             allWords = ["silkworm"]
         }
 
-        startGame()
+        let defaults = UserDefaults.standard
+
+        if let word = defaults.string(forKey: "title") {
+            title = word
+            usedWords = defaults.array(forKey: "words") as? [String] ?? []
+            tableView.reloadData()
+        } else {
+            startGame()
+        }
     }
 
     @objc func startGame() {
         title = allWords.randomElement()
         usedWords.removeAll(keepingCapacity: true)
+        let defaults = UserDefaults.standard
+        defaults.set(title, forKey: "title")
+        defaults.set([], forKey: "words")
         tableView.reloadData()
     }
 
@@ -60,6 +71,8 @@ class ViewController: UITableViewController {
             if isOriginal(word: lowerAnswer) {
                 if isReal(word: lowerAnswer) {
                     usedWords.insert(lowerAnswer, at: 0)
+                    let defaults = UserDefaults.standard
+                    defaults.set(usedWords, forKey: "words")
                     let indexPath = IndexPath(row: 0, section: 0)
                     tableView.insertRows(at: [indexPath], with: .automatic)
                     return
