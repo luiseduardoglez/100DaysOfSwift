@@ -29,6 +29,8 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Picture", for: indexPath)
         cell.textLabel?.text = pictures[indexPath.row]
+        let defaults = UserDefaults.standard
+        cell.detailTextLabel?.text = "\(defaults.integer(forKey: pictures[indexPath.row]))"
         return cell
     }
 
@@ -36,6 +38,9 @@ class ViewController: UITableViewController {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
             vc.selectedImage = pictures[indexPath.row]
             vc.customTitle = "Picture \(indexPath.row + 1) of \(pictures.count)"
+            let defaults = UserDefaults.standard
+            defaults.set(defaults.integer(forKey: pictures[indexPath.row]) + 1, forKey: pictures[indexPath.row])
+            tableView.reloadData()
             navigationController?.pushViewController(vc, animated: true)
         }
     }
