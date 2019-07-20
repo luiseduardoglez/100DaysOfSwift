@@ -55,6 +55,7 @@ class ViewController: UIViewController {
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
         var message: String
+        let defaults = UserDefaults.standard
         
         if questionsAsked <= 10 {
             
@@ -73,7 +74,14 @@ class ViewController: UIViewController {
                 button2.isEnabled = false
                 button3.isEnabled = false
 
-                let ac = UIAlertController(title: "The End", message: "Your final score is \(score).", preferredStyle: .alert)
+                let highScore = defaults.integer(forKey: "highScore")
+                message = "Your final score is \(score)."
+                if score > highScore {
+                    defaults.set(score, forKey: "highScore")
+                    message = "Your final score is \(score). \nThat's a new high score!"
+                }
+
+                let ac = UIAlertController(title: "The End", message: message, preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "OK", style: .default, handler: askQuestion))
                 present(ac, animated: true)
             } else {
