@@ -1,0 +1,108 @@
+{
+    "countries": [
+        {
+            "name": "Cuba",
+            "flag": "cuba",
+            "capitalCity": "Havana",
+            "area": 109884,
+            "population": 11209628,
+            "currency": "Cuban Peso (CUP) / Cuban Convertible Peso (CUC)"
+        },
+        {
+            "name": "Estonia",
+            "flag": "estonia",
+            "capitalCity": "Tallinn",
+            "area": 45227,
+            "population": 1324820,
+            "currency": "Euro (EUR)"
+        },
+        {
+            "name": "France",
+            "flag": "france",
+            "capitalCity": "Paris",
+            "area": 640679,
+            "population": 67022000,
+            "currency": "Euro (EUR)"
+        },
+        {
+            "name": "Germany",
+            "flag": "germany",
+            "capitalCity": "Berlin",
+            "area": 357386,
+            "population": 83019200,
+            "currency": "Euro (EUR)"
+        },
+        {
+            "name": "Ireland",
+            "flag": "ireland",
+            "capitalCity": "Dublin",
+            "area": 84421,
+            "population": 6572728,
+            "currency": "Euro (EUR)"
+        },
+        {
+            "name": "Italy",
+            "flag": "italy",
+            "capitalCity": "Rome",
+            "area": 301340,
+            "population": 60359546,
+            "currency": "Euro (EUR)"
+        },
+        {
+            "name": "Monaco",
+            "flag": "monaco",
+            "capitalCity": "Monaco",
+            "area": 2.2,
+            "population": 38897,
+            "currency": "Euro (EUR)"
+        },
+        {
+            "name": "Nigeria",
+            "flag": "nigeria",
+            "capitalCity": "Abuja",
+            "area": 923768,
+            "population": 200962417,
+            "currency": "Naira (NGN)"
+        },
+        {
+            "name": "Poland",
+            "flag": "poland",
+            "capitalCity": "Warsaw",
+            "area": 312696,
+            "population": 38433600,
+            "currency": "Polish złoty (PLN)"
+        },
+        {
+            "name": "Russia",
+            "flag": "russia",
+            "capitalCity": "Moscow",
+            "area": 17098246,
+            "population": 146793744,
+            "currency": "Russian ruble (RUB)"
+        },
+        {
+            "name": "Spain",
+            "flag": "spain",
+            "capitalCity": "Madrid",
+            "area": 505990,
+            "population": 46733038,
+            "currency": "Euro (EUR)"
+        },
+        {
+            "name": "United Kingdom",
+            "flag": "uk",
+            "capitalCity": "London",
+            "area": 242495,
+            "population": 67545757,
+            "currency": "Euro (EUR)"
+        },
+        {
+            "name": "United States of America",
+            "flag": "us",
+            "capitalCity": "Washington",
+            "area": 9833520,
+            "population": 327167434,
+            "currency": "US Dollar (USD)"
+        }
+    ]
+}
