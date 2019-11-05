@@ -31,7 +31,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="0qN-HE-Bno"/>
+                    <navigationItem key="navigationItem" id="0qN-HE-Bno">
+                        <barButtonItem key="rightBarButtonItem" title="Change Type" id="YSt-65-jmL">
+                            <connections>
+                                <action selector="changeMapType:" destination="BYZ-38-t0r" id="gg2-TT-IDg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="KXX-Fk-3Jt" id="gxh-el-lWw"/>
                     </connections>

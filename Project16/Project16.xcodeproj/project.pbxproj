@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA5EA7FD23714097006929EF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5EA7FC23714097006929EF /* DetailViewController.swift */; };
 		FA653DEC236FDF2A00101CDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA653DEB236FDF2A00101CDE /* AppDelegate.swift */; };
 		FA653DEE236FDF2A00101CDE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA653DED236FDF2A00101CDE /* SceneDelegate.swift */; };
 		FA653DF0236FDF2A00101CDE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA653DEF236FDF2A00101CDE /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA5EA7FC23714097006929EF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		FA653DE8236FDF2A00101CDE /* Project16.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project16.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA653DEB236FDF2A00101CDE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA653DED236FDF2A00101CDE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				FA653DF6236FDF2B00101CDE /* LaunchScreen.storyboard */,
 				FA653DF9236FDF2B00101CDE /* Info.plist */,
 				FA653DFF236FE04500101CDE /* Capital.swift */,
+				FA5EA7FC23714097006929EF /* DetailViewController.swift */,
 			);
 			path = Project16;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 			files = (
 				FA653DF0236FDF2A00101CDE /* ViewController.swift in Sources */,
 				FA653DEC236FDF2A00101CDE /* AppDelegate.swift in Sources */,
+				FA5EA7FD23714097006929EF /* DetailViewController.swift in Sources */,
 				FA653E00236FE04500101CDE /* Capital.swift in Sources */,
 				FA653DEE236FDF2A00101CDE /* SceneDelegate.swift in Sources */,
 			);
