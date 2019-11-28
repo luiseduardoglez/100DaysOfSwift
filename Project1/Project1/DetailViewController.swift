@@ -15,6 +15,8 @@ class DetailViewController: UIViewController {
     var customTitle: String?
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        assert(selectedImage != nil, "Image must has value")
         
         title = customTitle
         navigationItem.largeTitleDisplayMode = .never
