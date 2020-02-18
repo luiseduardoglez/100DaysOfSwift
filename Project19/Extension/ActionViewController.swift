@@ -17,6 +17,7 @@ class ActionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectScript))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                             target: self, action: #selector(done))
         let notificationCenter = NotificationCenter.default
@@ -33,18 +34,29 @@ class ActionViewController: UIViewController {
                     DispatchQueue.main.async {
                         self?.title = self?.pageTitle
                     }
+
+                    if let urlIsEmpty = self?.pageURL.isEmpty, !urlIsEmpty,
+                        let url = self?.pageURL, let host = URL(string: url)?.host,
+                        let savedScript = UserDefaults.standard.string(forKey: host) {
+                        self?.script.text = savedScript
+                    }
                 }
             }
         }
     }
 
-    @IBAction func done() {
+    fileprivate func loadScript(_ script: String) {
         let item = NSExtensionItem()
-        let argument: NSDictionary = ["customJavaScript": script.text]
+        let argument: NSDictionary = ["customJavaScript": script]
         let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
         let customJs = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
         item.attachments = [customJs]
         extensionContext?.completeRequest(returningItems: [item])
+        UserDefaults.standard.set(script, forKey: pageURL)
+    }
+
+    @IBAction func done() {
+        loadScript(script.text)
     }
 
     @objc func adjustForKeyboard(notification: Notification) {
@@ -63,6 +75,16 @@ class ActionViewController: UIViewController {
 
         let selectedRange = script.selectedRange
         script.scrollRangeToVisible(selectedRange)
+    }
+
+    @objc func selectScript() {
+        let ac = UIAlertController(title: "Choose a script", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "alert(document.title);", style: .default, handler: { [weak self] action in
+            guard let script = action.title else { return }
+            self?.loadScript(script)
+        }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        present(ac, animated: true)
     }
 
 }
