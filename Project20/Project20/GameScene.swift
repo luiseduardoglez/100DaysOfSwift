@@ -13,17 +13,30 @@ class GameScene: SKScene {
 
     var gameTimer: Timer?
     var fireworks = [SKNode]()
+    var numberOfLaunches = 0
 
     let leftEdge = -22
     let bottomEdge = -22
     let rightEdge = 1024 + 22
 
+    var gameOverLabel: SKLabelNode!
+    var playAgainLabel: SKLabelNode!
+    var scoreLabel: SKLabelNode!
     var score = 0 {
         didSet {
-
+            scoreLabel.text = "Score: \(score)"
         }
     }
     
+    fileprivate func startGame() {
+        score = 0
+        numberOfLaunches = 0
+        fireworks.removeAll()
+        gameTimer = Timer.scheduledTimer(timeInterval: 6, target: self,
+                                         selector: #selector(launchFireworks),
+                                         userInfo: nil, repeats: true)
+    }
+
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "background")
         background.position = CGPoint(x: 512, y: 384)
@@ -31,9 +44,13 @@ class GameScene: SKScene {
         background.zPosition = -1
         addChild(background)
 
-        gameTimer = Timer.scheduledTimer(timeInterval: 6, target: self,
-                                         selector: #selector(launchFireworks),
-                                         userInfo: nil, repeats: true)
+        scoreLabel = SKLabelNode(text: "Score: 0")
+        scoreLabel.fontSize = 40
+        scoreLabel.fontColor = .white
+        scoreLabel.position = CGPoint(x: 512, y: 150)
+        addChild(scoreLabel)
+
+        startGame()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -58,6 +75,14 @@ class GameScene: SKScene {
 
     @objc func launchFireworks() {
         let movementAmount: CGFloat = 1800
+
+        numberOfLaunches += 1
+
+        if numberOfLaunches > 5 {
+            gameTimer?.invalidate()
+            gameOver()
+            return
+        }
 
         switch Int.random(in: 0...3) {
         case 0:
@@ -138,6 +163,12 @@ class GameScene: SKScene {
         let location = touch.location(in: self)
         let nodesAtPoint = nodes(at: location)
 
+        if nodesAtPoint.contains(where: { $0.name == "playAgain" }) {
+            gameOverLabel.removeFromParent()
+            playAgainLabel.removeFromParent()
+            startGame()
+        }
+
         for case let node as SKSpriteNode in nodesAtPoint {
             guard node.name == "firework" else { continue }
             for parent in fireworks {
@@ -151,5 +182,76 @@ class GameScene: SKScene {
             node.name = "selected"
             node.colorBlendFactor = 0
         }
+    }
+
+    func explode(firework: SKNode) {
+        if let emitter = SKEmitterNode(fileNamed: "explode") {
+            emitter.position = firework.position
+            addChild(emitter)
+
+            let remove = SKAction.run {
+                emitter.removeFromParent()
+            }
+
+            emitter.run(SKAction.sequence([SKAction.wait(forDuration: 2.0), remove]))
+        }
+
+        firework.removeFromParent()
+    }
+
+    func explodeFireworks() {
+        var numExploded = 0
+
+        for (index, fireworkContainer) in fireworks.enumerated().reversed() {
+            guard let firework = fireworkContainer.children.first as? SKSpriteNode else { continue }
+
+            if firework.name == "selected" {
+                // destroy this firework!
+                explode(firework: fireworkContainer)
+                fireworks.remove(at: index)
+                numExploded += 1
+            }
+        }
+
+        switch numExploded {
+        case 0:
+            // nothing – rubbish!
+            break
+        case 1:
+            score += 200
+        case 2:
+            score += 500
+        case 3:
+            score += 1500
+        case 4:
+            score += 2500
+        default:
+            score += 4000
+        }
+    }
+
+    func gameOver() {
+
+        gameOverLabel = SKLabelNode(text: "Game Over")
+        gameOverLabel.fontSize = 70
+        gameOverLabel.fontColor = .white
+        gameOverLabel.position = CGPoint(x: 512, y: 384)
+        gameOverLabel.xScale = 0.001
+        gameOverLabel.yScale = 0.001
+        addChild(gameOverLabel)
+
+        let gameOverAppear = SKAction.scale(to: 1.0, duration: 0.5)
+        gameOverLabel.run(gameOverAppear)
+
+        playAgainLabel = SKLabelNode(text: "Play Again")
+        playAgainLabel.fontSize = 50
+        playAgainLabel.fontColor = .white
+        playAgainLabel.position = CGPoint(x: 512, y: -50)
+        playAgainLabel.name = "playAgain"
+        addChild(playAgainLabel)
+
+        let playAgainAppear = SKAction.move(to: CGPoint(x: 512, y: 70), duration: 0.5)
+
+        playAgainLabel.run(SKAction.sequence([SKAction.wait(forDuration: 1.0), playAgainAppear]))
     }
 }
