@@ -14,7 +14,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(registerLocal))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleNotification))
     }
 
     @objc func registerLocal() {
@@ -29,7 +29,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         }
     }
 
-    @objc func scheduleLocal() {
+    func scheduleLocal(timeInterval: Double = 5) {
         registerCategories()
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
@@ -39,17 +39,21 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         content.body = "The early bird catches the worm, but the second mouse gets the cheese."
         content.categoryIdentifier = "alarm"
         content.userInfo = ["customData": "fizzbuzz"]
-        content.sound = UNNotificationSound.default
+        content.sound = .default
 
         var dateComponents = DateComponents()
-        dateComponents.hour = 12
-        dateComponents.minute = 38
+        dateComponents.hour = 8
+        dateComponents.minute = 48
 
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        //        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
 
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         center.add(request)
+    }
+
+    @objc func scheduleNotification() {
+        scheduleLocal()
     }
 
     func registerCategories() {
@@ -58,7 +62,8 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         center.delegate = self
 
         let show = UNNotificationAction(identifier: "show", title: "Tell me more…", options: .foreground)
-        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [])
+        let action2 = UNNotificationAction(identifier: "later", title: "Remind me later", options: .foreground)
+        let category = UNNotificationCategory(identifier: "alarm", actions: [show, action2], intentIdentifiers: [])
 
         center.setNotificationCategories([category])
     }
@@ -73,12 +78,14 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
             switch response.actionIdentifier {
             case UNNotificationDefaultActionIdentifier:
                 // the user swiped to unlock
+//                showAlert(with: "Default identifier")
                 print("Default identifier")
 
             case "show":
                 // the user tapped our "show more info…" button
-                print("Show more information…")
-
+                showAlert(with: "Show more information")
+            case "later":
+                scheduleLocal()
             default:
                 break
             }
@@ -86,6 +93,12 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
         // you must call the completion handler when you're done
         completionHandler()
+    }
+
+    func showAlert(with message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
