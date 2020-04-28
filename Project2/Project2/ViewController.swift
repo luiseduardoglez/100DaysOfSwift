@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import UserNotifications
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     
     @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var button2: UIButton!
@@ -32,8 +33,46 @@ class ViewController: UIViewController {
         button1.layer.borderColor = UIColor.lightGray.cgColor
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
-        
+
+        registerLocalNotifications()
         askQuestion()
+    }
+
+    func registerLocalNotifications() {
+        let notificationCenter = UNUserNotificationCenter.current()
+
+        notificationCenter.requestAuthorization(options: [.alert, .badge, .sound]) { [weak self](granted, error) in
+            if granted {
+                self?.configureNotification()
+            }
+        }
+    }
+
+    func configureNotification() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = self
+
+        notificationCenter.removeAllDeliveredNotifications()
+        notificationCenter.removeAllPendingNotificationRequests()
+
+        let content = UNMutableNotificationContent()
+        content.title = "We miss you"
+        content.body = "Guessing flags is fun!"
+        content.categoryIdentifier = "returning"
+        content.sound = .default
+
+        let playAction = UNNotificationAction(identifier: "play", title: "Play", options: .foreground)
+
+        let category = UNNotificationCategory(identifier: "returning", actions: [playAction],
+                                              intentIdentifiers: [], options: [])
+
+        notificationCenter.setNotificationCategories([category])
+
+        let timeInterval = 86400
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: (TimeInterval(timeInterval)), repeats: true)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+        notificationCenter.add(request)
     }
     
     @objc func scoreTapped() {
