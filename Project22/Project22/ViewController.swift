@@ -43,16 +43,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     func startScanning() {
         let uuid = UUID(uuidString: "5A4BCFCE-174E-4BAC-A814-092E77F6B7E5")!
-        let beaconRegion = CLBeaconRegion(proximityUUID: uuid, major: 123, minor: 456, identifier: "MyBeacon")
+        let beaconRegion = CLBeaconRegion(
+            uuid: uuid,
+            major: 123,
+            minor: 456,
+            identifier: "MyBeacon"
+        )
 
         locationManager?.startMonitoring(for: beaconRegion)
-        locationManager?.startRangingBeacons(in: beaconRegion)
+        locationManager?.startRangingBeacons(
+            satisfying: CLBeaconIdentityConstraint(uuid: uuid,
+                                                   major: 123,
+                                                   minor: 456)
+        )
     }
 
     func update(distance: CLProximity) {
         UIView.animate(withDuration: 1) {
             switch distance {
-
             case .immediate:
                 self.view.backgroundColor = UIColor.red
                 self.distanceReading.text = "RIGHT HERE"
@@ -62,7 +70,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             case .far:
                 self.view.backgroundColor = UIColor.blue
                 self.distanceReading.text = "FAR"
-            @unknown default:
+            default:
                 self.view.backgroundColor = UIColor.gray
                 self.distanceReading.text = "UNKNOWN"
             }
